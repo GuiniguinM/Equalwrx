@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Resume</title>
+</head>
+<body>
+    <div class="container resume-container">
+        <button class="settings-btn" onclick="window.location.href='settings.html'">
+            <img src="img/settings-icon.png" alt="Settings">
+        </button>
+
+        <div class="resume-content">
+            <div class="resume-header">
+                <div class="profile-pic-container">
+                    <img id="profilePic" src="img/default-profile.png" alt="Profile Picture">
+                    <input type="file" id="profilePicInput" accept="image/*" style="display: none;">
+                    <button class="change-pic-btn" onclick="document.getElementById('profilePicInput').click()">
+                        Change Picture
+                    </button>
+                </div>
+
+                <div class="resume-title">
+                    <h1 contenteditable="true" id="fullName">Your Full Name</h1>
+                    <p contenteditable="true" id="jobTitle">Professional Title</p>
+                </div>
+            </div>
+
+            <div class="resume-section">
+                <h2>Contact Information</h2>
+                <div contenteditable="true" id="contactInfo">
+                    <p>Email: your.email@example.com</p>
+                    <p>Phone: (123) 456-7890</p>
+                    <p>Location: City, Country</p>
+                </div>
+            </div>
+
+            <div class="resume-section">
+                <h2>Professional Summary</h2>
+                <div contenteditable="true" id="summary">
+                    A brief professional summary highlighting your key strengths and career objectives.
+                </div>
+            </div>
+
+            <div class="resume-section">
+                <h2>Work Experience</h2>
+                <div contenteditable="true" id="experience">
+                    <div class="experience-item">
+                        <h3>Job Title - Company Name</h3>
+                        <p class="date">Month Year - Present</p>
+                        <ul>
+                            <li>Key responsibility or achievement</li>
+                            <li>Another significant accomplishment</li>
+                            <li>Notable contribution or project</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resume-section">
+                <h2>Education</h2>
+                <div contenteditable="true" id="education">
+                    <div class="education-item">
+                        <h3>Degree Name - Institution</h3>
+                        <p class="date">Year - Year</p>
+                        <p>Relevant coursework or achievements</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resume-section">
+                <h2>Skills</h2>
+                <div contenteditable="true" id="skills">
+                    <ul>
+                        <li>Skill 1</li>
+                        <li>Skill 2</li>
+                        <li>Skill 3</li>
+                        <li>Skill 4</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="resume-actions">
+            <button onclick="saveResume()" class="save-btn">Save Resume</button>
+            <button onclick="window.print()" class="print-btn">Print/Download PDF</button>
+        </div>
+    </div>
+
+    <script>
+        // Handle profile picture upload
+        document.getElementById('profilePicInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profilePic').src = e.target.result;
+                    // Save to localStorage
+                    localStorage.setItem('profilePicture', e.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Load saved resume data
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load profile picture
+            const savedPic = localStorage.getItem('profilePicture');
+            if (savedPic) {
+                document.getElementById('profilePic').src = savedPic;
+            }
+
+            // Load resume content
+            const savedResume = JSON.parse(localStorage.getItem('resumeData'));
+            if (savedResume) {
+                Object.keys(savedResume).forEach(id => {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.innerHTML = savedResume[id];
+                    }
+                });
+            }
+        });
+
+        // Save resume data
+        function saveResume() {
+            const resumeData = {};
+            const editableElements = document.querySelectorAll('[contenteditable="true"]');
+            
+            editableElements.forEach(element => {
+                resumeData[element.id] = element.innerHTML;
+            });
+
+            localStorage.setItem('resumeData', JSON.stringify(resumeData));
+            alert('Resume saved successfully!');
+        }
+    </script>
+</body>
+</html> 

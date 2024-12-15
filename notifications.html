@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Notification Settings</title>
+</head>
+<body>
+    <div class="container">
+        <button class="settings-btn" onclick="window.location.href='settings.html'">
+            <img src="img/settings-icon.png" alt="Settings">
+        </button>
+
+        <div class="notifications-container">
+            <h2>Notification Settings</h2>
+
+            <div class="notification-section">
+                <h3>General Notifications</h3>
+                
+                <div class="notification-option">
+                    <span>Enable All Notifications</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="allNotifications" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="notification-option">
+                    <span>Job Alerts</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="jobAlerts" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="notification-option">
+                    <span>Application Updates</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="applicationUpdates" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="notification-option">
+                    <span>Messages</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="messages" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="notification-section">
+                <h3>Sound Settings</h3>
+                
+                <div class="notification-option">
+                    <span>Notification Sound</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="soundEnabled" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="volume-control">
+                    <span>Volume Level</span>
+                    <div class="volume-slider-container">
+                        <input type="range" id="volumeSlider" min="0" max="100" value="70">
+                        <span id="volumeValue">70%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="notification-section">
+                <h3>Vibration Settings</h3>
+                
+                <div class="notification-option">
+                    <span>Vibrate on Notification</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="vibrateEnabled" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="vibration-options">
+                    <span>Vibration Pattern</span>
+                    <select id="vibratePattern">
+                        <option value="short">Short</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="long">Long</option>
+                        <option value="double">Double Vibration</option>
+                    </select>
+                </div>
+            </div>
+
+            <button class="save-btn" onclick="saveNotificationSettings()">Save Settings</button>
+        </div>
+    </div>
+
+    <script>
+        // Load saved settings when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedSettings = JSON.parse(localStorage.getItem('notificationSettings')) || {};
+            
+            // Load checkbox states
+            document.querySelectorAll('.toggle-switch input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = savedSettings[checkbox.id] !== false; // Default to true if not set
+            });
+
+            // Load volume value
+            const volumeSlider = document.getElementById('volumeSlider');
+            volumeSlider.value = savedSettings.volume || 70;
+            document.getElementById('volumeValue').textContent = `${volumeSlider.value}%`;
+
+            // Load vibration pattern
+            const vibratePattern = document.getElementById('vibratePattern');
+            if (savedSettings.vibratePattern) {
+                vibratePattern.value = savedSettings.vibratePattern;
+            }
+        });
+
+        // Update volume display when slider moves
+        document.getElementById('volumeSlider').addEventListener('input', function(e) {
+            document.getElementById('volumeValue').textContent = `${e.target.value}%`;
+        });
+
+        // Save all notification settings
+        function saveNotificationSettings() {
+            const settings = {
+                volume: document.getElementById('volumeSlider').value,
+                vibratePattern: document.getElementById('vibratePattern').value
+            };
+
+            // Save all checkbox states
+            document.querySelectorAll('.toggle-switch input[type="checkbox"]').forEach(checkbox => {
+                settings[checkbox.id] = checkbox.checked;
+            });
+
+            localStorage.setItem('notificationSettings', JSON.stringify(settings));
+            alert('Notification settings saved successfully!');
+        }
+    </script>
+</body>
+</html> 

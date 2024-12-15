@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Privacy Settings</title>
+</head>
+<body>
+    <div class="container">
+        <button class="settings-btn" onclick="window.location.href='settings.html'">
+            <img src="img/settings-icon.png" alt="Settings">
+        </button>
+
+        <div class="privacy-container">
+            <h2>Privacy Overview</h2>
+
+            <div class="privacy-section">
+                <h3>Data Collection</h3>
+                <div class="privacy-content">
+                    <p>We collect the following information to provide and improve our services:</p>
+                    <ul>
+                        <li>Profile information (name, age, contact details)</li>
+                        <li>Employment history and qualifications</li>
+                        <li>Job preferences and search history</li>
+                        <li>Device information and app usage data</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="privacy-section">
+                <h3>How We Use Your Data</h3>
+                <div class="privacy-content">
+                    <p>Your information is used to:</p>
+                    <ul>
+                        <li>Match you with suitable job opportunities</li>
+                        <li>Improve our job recommendations</li>
+                        <li>Enhance app functionality and user experience</li>
+                        <li>Communicate important updates and opportunities</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="privacy-section">
+                <h3>Data Protection</h3>
+                <div class="privacy-content">
+                    <p>We implement various security measures to protect your data:</p>
+                    <ul>
+                        <li>Secure data encryption</li>
+                        <li>Regular security audits</li>
+                        <li>Restricted access to personal information</li>
+                        <li>Compliance with data protection regulations</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="privacy-section">
+                <h3>Your Privacy Controls</h3>
+                <div class="privacy-content">
+                    <div class="privacy-option">
+                        <span>Profile Visibility</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="profileVisibility" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="privacy-option">
+                        <span>Data Analytics Participation</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="dataAnalytics" checked>
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="privacy-option">
+                        <span>Email Marketing</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="emailMarketing">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="privacy-section">
+                <h3>Data Deletion</h3>
+                <div class="privacy-content">
+                    <p>You can request to delete your account and associated data at any time.</p>
+                    <button class="delete-account-btn" onclick="confirmDataDeletion()">
+                        Request Data Deletion
+                    </button>
+                </div>
+            </div>
+
+            <button class="save-btn" onclick="savePrivacySettings()">Save Privacy Settings</button>
+        </div>
+    </div>
+
+    <script>
+        // Load saved privacy settings
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedSettings = JSON.parse(localStorage.getItem('privacySettings')) || {};
+            
+            // Load toggle states
+            document.querySelectorAll('.toggle-switch input[type="checkbox"]').forEach(checkbox => {
+                if (savedSettings[checkbox.id] !== undefined) {
+                    checkbox.checked = savedSettings[checkbox.id];
+                }
+            });
+        });
+
+        // Save privacy settings
+        function savePrivacySettings() {
+            const settings = {};
+            
+            document.querySelectorAll('.toggle-switch input[type="checkbox"]').forEach(checkbox => {
+                settings[checkbox.id] = checkbox.checked;
+            });
+
+            localStorage.setItem('privacySettings', JSON.stringify(settings));
+            alert('Privacy settings saved successfully!');
+        }
+
+        // Confirm data deletion
+        function confirmDataDeletion() {
+            if (confirm('Are you sure you want to request deletion of your account and all associated data? This action cannot be undone.')) {
+                alert('Data deletion request submitted. Our team will process your request within 30 days.');
+            }
+        }
+    </script>
+</body>
+</html> 

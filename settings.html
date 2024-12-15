@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Settings</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Settings</h2>
+        
+        <div class="settings-section">
+            <button class="settings-option" onclick="window.location.href='profile_info.html'">
+                Profile Information
+            </button>
+            
+            <button class="settings-option" onclick="window.location.href='resume.html'">
+                Resume
+            </button>
+            
+            <button class="settings-option" onclick="window.location.href='notifications.html'">
+                Notifications
+            </button>
+            
+            <button class="settings-option" onclick="window.location.href='privacy.html'">
+                Privacy
+            </button>
+            
+            <button class="settings-option" onclick="window.location.href='help.html'">
+                Help & Support
+            </button>
+            
+            <button class="settings-option" onclick="window.location.href='about.html'">
+                About
+            </button>
+            
+            <button class="settings-option" onclick="handleLogout()">
+                Log Out
+            </button>
+        </div>
+
+        <button class="back-btn" onclick="window.location.href='home.html'">
+            Back to Home
+        </button>
+    </div>
+
+    <script>
+        function handleLogout() {
+            // Clear any stored user data
+            localStorage.clear();
+            // Redirect to index.html
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html> 

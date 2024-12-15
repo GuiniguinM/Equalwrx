@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Profile Information</title>
+</head>
+<body>
+    <div class="container">
+        <button class="settings-btn" onclick="window.location.href='settings.html'">
+            <img src="img/settings-icon.png" alt="Settings">
+        </button>
+        
+        <div class="profile-info-container">
+            <h2>Profile Information</h2>
+            
+            <div class="profile-details" id="profileView">
+                <!-- Profile information will be displayed here -->
+            </div>
+
+            <div class="profile-form hidden" id="profileForm">
+                <form id="editProfileForm">
+                    <label for="first-name">First Name:</label>
+                    <input type="text" id="first-name" name="first-name" required>
+
+                    <label for="last-name">Last Name:</label>
+                    <input type="text" id="last-name" name="last-name" required>
+
+                    <label for="mid-name">Middle Name:</label>
+                    <input type="text" id="mid-name" name="mid-name">
+
+                    <label for="age">Age:</label>
+                    <input type="number" id="age" name="age" required>
+
+                    <label for="sex">Sex:</label>
+                    <select id="sex" name="sex" required>
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" required>
+
+                    <label for="disability">Disability:</label>
+                    <select id="disability" name="disability" required>
+                        <option value="">Select</option>
+                        <option value="hearing">Hearing</option>
+                        <option value="mobility">Mobility</option>
+                        <option value="cognitive">Cognitive</option>
+                        <option value="asthma">Asthma</option>
+                        <option value="colorblind">Color Blindness</option>
+                        <option value="bipolar">Bipolar</option>
+                    </select>
+
+                    <div class="button-group">
+                        <button type="submit" class="save-btn">Save Changes</button>
+                        <button type="button" class="cancel-btn" onclick="toggleEditMode()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <button class="edit-btn" id="editButton" onclick="toggleEditMode()">Edit Profile</button>
+        </div>
+    </div>
+
+    <script src="profile_info.js"></script>
+</body>
+</html> 

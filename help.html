@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Help & Support</title>
+</head>
+<body>
+    <div class="container">
+        <button class="settings-btn" onclick="window.location.href='settings.html'">
+            <img src="img/settings-icon.png" alt="Settings">
+        </button>
+
+        <div class="help-container">
+            <h2>Help & Support</h2>
+
+            <div class="help-section">
+                <h3>Frequently Asked Questions</h3>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer(this)">
+                            How do I create a profile?
+                            <span class="arrow">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            To create a profile, go to Profile Information in Settings. Fill in your personal details, 
+                            qualifications, and work preferences. Don't forget to save your changes.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer(this)">
+                            How can I search for jobs?
+                            <span class="arrow">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Use the search bar on the home page to look for specific jobs, or browse through our 
+                            categories to find jobs that match your interests and qualifications.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question" onclick="toggleAnswer(this)">
+                            How do I update my resume?
+                            <span class="arrow">▼</span>
+                        </div>
+                        <div class="faq-answer">
+                            Go to Resume in Settings. You can edit any section by clicking on it. Don't forget to 
+                            click the Save button after making changes.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>Contact Support</h3>
+                <div class="contact-support">
+                    <form id="supportForm" onsubmit="submitSupportRequest(event)">
+                        <label for="subject">Subject</label>
+                        <select id="subject" required>
+                            <option value="">Select a topic</option>
+                            <option value="technical">Technical Issue</option>
+                            <option value="account">Account Problem</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="other">Other</option>
+                        </select>
+
+                        <label for="message">Message</label>
+                        <textarea id="message" rows="5" required 
+                            placeholder="Describe your issue or question..."></textarea>
+
+                        <button type="submit" class="submit-btn">Send Message</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="help-section">
+                <h3>Additional Resources</h3>
+                <div class="resources-list">
+                    <a href="#" class="resource-link">User Guide</a>
+                    <a href="#" class="resource-link">Video Tutorials</a>
+                    <a href="#" class="resource-link">Privacy Policy</a>
+                    <a href="#" class="resource-link">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(question) {
+            const answer = question.nextElementSibling;
+            const arrow = question.querySelector('.arrow');
+            
+            if (answer.style.maxHeight) {
+                answer.style.maxHeight = null;
+                arrow.style.transform = 'rotate(0deg)';
+            } else {
+                answer.style.maxHeight = answer.scrollHeight + "px";
+                arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        function submitSupportRequest(event) {
+            event.preventDefault();
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            
+            // Here you would typically send this to your backend
+            alert('Support request submitted successfully! We will respond within 24 hours.');
+            
+            // Clear the form
+            event.target.reset();
+        }
+    </script>
+</body>
+</html> 
