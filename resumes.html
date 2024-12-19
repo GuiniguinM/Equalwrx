@@ -83,7 +83,7 @@
 
         <div class="resume-actions">
             <button onclick="saveResume()" class="save-btn">Save Resume</button>
-            <button onclick="submitApplication()" class="apply-btn">Apply Now</button>
+            <button onclick="window.print()" class="print-btn">Print/Download PDF</button>
         </div>
     </div>
 
@@ -107,18 +107,25 @@
             loadResumeData();
         });
 
+        // Update form submission
+        document.getElementById('resumeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = collectFormData();
+            saveAndSyncResume(formData);
+            alert('Resume saved successfully!');
+        });
+
         // Save resume data
         function saveResume() {
-            const resumeData = collectFormData();
-            saveAndSyncResume(resumeData);
-            alert('Resume saved successfully!');
-        }
+            const resumeData = {};
+            const editableElements = document.querySelectorAll('[contenteditable="true"]');
+            
+            editableElements.forEach(element => {
+                resumeData[element.id] = element.innerHTML;
+            });
 
-        // Handle application submission
-        function submitApplication() {
-            const resumeData = collectFormData();
-            saveAndSyncResume(resumeData);
-            window.location.href = 'apply-confirmation.html';
+            localStorage.setItem('resumeData', JSON.stringify(resumeData));
+            alert('Resume saved successfully!');
         }
     </script>
 </body>
