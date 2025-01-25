@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Post New Job</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Post New Job</h1>
+        
+        <form id="jobPostForm" class="job-post-form">
+            <div class="form-group">
+                <label for="jobTitle">Job Title:</label>
+                <input type="text" id="jobTitle" name="jobTitle" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    <option value="">Select Category</option>
+                    <option value="salon">Salon Services</option>
+                    <option value="kitchen">Kitchen Staff</option>
+                    <option value="education">Education</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="employmentType">Employment Type:</label>
+                <select id="employmentType" name="employmentType" required>
+                    <option value="full-time">Full-Time</option>
+                    <option value="part-time">Part-Time</option>
+                    <option value="contract">Contract</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Job Description:</label>
+                <textarea id="description" name="description" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="requirements">Requirements:</label>
+                <textarea id="requirements" name="requirements" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="benefits">Benefits:</label>
+                <textarea id="benefits" name="benefits" rows="5" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="salary">Salary Range:</label>
+                <input type="text" id="salary" name="salary" required>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Location:</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Post Job</button>
+        </form>
+
+        <button type="button" class="back-btn" onclick="window.location.href='employer-portal.html'">
+            Back to Portal
+        </button>
+    </div>
+
+    <script>
+        document.getElementById('jobPostForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const jobData = {};
+            formData.forEach((value, key) => {
+                jobData[key] = value;
+            });
+            
+            // Add timestamp and status
+            jobData.datePosted = new Date().toISOString();
+            jobData.status = 'active';
+            
+            // Save to localStorage
+            const jobs = JSON.parse(localStorage.getItem('postedJobs')) || [];
+            jobs.push(jobData);
+            localStorage.setItem('postedJobs', JSON.stringify(jobs));
+            
+            // Update employer stats
+            const employerData = JSON.parse(localStorage.getItem('employerData')) || {};
+            employerData.activeJobs = (employerData.activeJobs || 0) + 1;
+            localStorage.setItem('employerData', JSON.stringify(employerData));
+            
+            alert('Job posted successfully!');
+            window.location.href = 'employer-portal.html';
+        });
+    </script>
+</body>
+</html> 

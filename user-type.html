@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Select User Type</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to EqualWorx</h1>
+        <p>Please select your user type to continue:</p>
+
+        <div class="user-type-selection">
+            <button onclick="selectUserType('jobseeker')" class="type-btn jobseeker-btn">
+                <span class="icon">👤</span>
+                <span class="label">I'm a Job Seeker</span>
+                <span class="description">Looking for job opportunities</span>
+            </button>
+
+            <button onclick="selectUserType('employer')" class="type-btn employer-btn">
+                <span class="icon">🏢</span>
+                <span class="label">I'm an Employer</span>
+                <span class="description">Looking to hire talent</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function selectUserType(type) {
+            localStorage.setItem('userType', type);
+            if (type === 'jobseeker') {
+                window.location.href = 'profile.html';
+            } else {
+                window.location.href = 'employer-registration.html';
+            }
+        }
+    </script>
+
+    <style>
+        .user-type-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            max-width: 400px;
+            margin: 40px auto;
+        }
+
+        .type-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .type-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .type-btn .icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .type-btn .label {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .type-btn .description {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .jobseeker-btn:hover {
+            border-color: #007bff;
+            background: #f8f9ff;
+        }
+
+        .employer-btn:hover {
+            border-color: #28a745;
+            background: #f8fff9;
+        }
+    </style>
+</body>
+</html> 

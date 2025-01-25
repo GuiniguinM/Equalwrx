@@ -3,20 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <title>Resume</title>
     <script src="resume_sync.js"></script>
 </head>
 <body>
     <div class="container resume-container">
-        <button class="settings-btn" onclick="window.history.back()">
-            <img src="img/back-arrow.png" alt="Back">
+        <button class="settings-btn icon-btn" onclick="window.history.back()">
+            <i class="fas fa-arrow-left"></i>
         </button>
 
         <div class="resume-content">
             <div class="resume-header">
                 <div class="profile-pic-container">
-                    <img id="profilePic" src="img/default-profile.png" alt="Profile Picture" onclick="document.getElementById('profilePicInput').click()" style="cursor: pointer;">
+                    <img id="profilePic" src="img/settings.jpg" alt="Profile Picture" onclick="document.getElementById('profilePicInput').click()" style="cursor: pointer;">
                     <input type="file" id="profilePicInput" accept="image/*" style="display: none;">
                 </div>
 

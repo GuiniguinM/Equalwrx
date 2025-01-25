@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Manage Applications</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Manage Applications</h1>
+
+        <div class="filter-section">
+            <select id="jobFilter">
+                <option value="all">All Jobs</option>
+                <!-- Jobs will be populated dynamically -->
+            </select>
+            <select id="statusFilter">
+                <option value="all">All Status</option>
+                <option value="new">New</option>
+                <option value="reviewed">Reviewed</option>
+                <option value="interviewed">Interviewed</option>
+                <option value="accepted">Accepted</option>
+                <option value="rejected">Rejected</option>
+            </select>
+        </div>
+
+        <div class="applications-list" id="applicationsList">
+            <!-- Applications will be populated dynamically -->
+        </div>
+
+        <button type="button" class="back-btn" onclick="window.location.href='employer-portal.html'">
+            Back to Portal
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load applications
+            const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+            const jobs = JSON.parse(localStorage.getItem('postedJobs')) || [];
+            
+            // Populate job filter
+            const jobFilter = document.getElementById('jobFilter');
+            jobs.forEach(job => {
+                const option = document.createElement('option');
+                option.value = job.jobTitle;
+                option.textContent = job.jobTitle;
+                jobFilter.appendChild(option);
+            });
+
+            // Display applications
+            function displayApplications(applications) {
+                const container = document.getElementById('applicationsList');
+                container.innerHTML = '';
+
+                applications.forEach(app => {
+                    const appElement = document.createElement('div');
+                    appElement.className = 'application-card';
+                    appElement.innerHTML = `
+                        <h3>${app.applicantName}</h3>
+                        <p>Applied for: ${app.jobTitle}</p>
+                        <p>Status: ${app.status}</p>
+                        <button onclick="viewApplication('${app.id}')">View Details</button>
+                        <button onclick="updateStatus('${app.id}')">Update Status</button>
+                    `;
+                    container.appendChild(appElement);
+                });
+            }
+
+            // Initial display
+            displayApplications(applications);
+
+            // Add filter listeners
+            document.getElementById('jobFilter').addEventListener('change', filterApplications);
+            document.getElementById('statusFilter').addEventListener('change', filterApplications);
+
+            function filterApplications() {
+                const jobFilter = document.getElementById('jobFilter').value;
+                const statusFilter = document.getElementById('statusFilter').value;
+
+                let filtered = applications;
+                if (jobFilter !== 'all') {
+                    filtered = filtered.filter(app => app.jobTitle === jobFilter);
+                }
+                if (statusFilter !== 'all') {
+                    filtered = filtered.filter(app => app.status === statusFilter);
+                }
+
+                displayApplications(filtered);
+            }
+        });
+
+        function viewApplication(id) {
+            // Store the ID and redirect to detailed view
+            localStorage.setItem('currentApplication', id);
+            window.location.href = 'view-application.html';
+        }
+
+        function updateStatus(id) {
+            const newStatus = prompt('Enter new status (new/reviewed/interviewed/accepted/rejected):');
+            if (newStatus) {
+                const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+                const index = applications.findIndex(app => app.id === id);
+                if (index !== -1) {
+                    applications[index].status = newStatus;
+                    localStorage.setItem('jobApplications', JSON.stringify(applications));
+                    location.reload();
+                }
+            }
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>View Application</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Application Details</h1>
+
+        <div class="application-details" id="applicationDetails">
+            <!-- Application details will be populated dynamically -->
+        </div>
+
+        <div class="action-buttons">
+            <button onclick="updateApplicationStatus('accepted')" class="accept-btn">Accept</button>
+            <button onclick="updateApplicationStatus('rejected')" class="reject-btn">Reject</button>
+            <button onclick="scheduleInterview()" class="interview-btn">Schedule Interview</button>
+        </div>
+
+        <button type="button" class="back-btn" onclick="window.location.href='manage-applications.html'">
+            Back to Applications
+        </button>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const applicationId = localStorage.getItem('currentApplication');
+            const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+            const application = applications.find(app => app.id === applicationId);
+
+            if (application) {
+                document.getElementById('applicationDetails').innerHTML = `
+                    <div class="detail-section">
+                        <h2>${application.applicantName}</h2>
+                        <p class="status">Status: ${application.status}</p>
+                        <p>Applied for: ${application.jobTitle}</p>
+                        <p>Application Date: ${new Date(application.dateApplied).toLocaleDateString()}</p>
+                    </div>
+                    <div class="resume-section">
+                        <h3>Resume</h3>
+                        ${application.resume}
+                    </div>
+                    <div class="notes-section">
+                        <h3>Notes</h3>
+                        <textarea id="applicationNotes">${application.notes || ''}</textarea>
+                        <button onclick="saveNotes()">Save Notes</button>
+                    </div>
+                `;
+            }
+        });
+
+        function updateApplicationStatus(status) {
+            const applicationId = localStorage.getItem('currentApplication');
+            const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+            const index = applications.findIndex(app => app.id === applicationId);
+            
+            if (index !== -1) {
+                applications[index].status = status;
+                localStorage.setItem('jobApplications', JSON.stringify(applications));
+                alert(`Application ${status}`);
+                window.location.href = 'manage-applications.html';
+            }
+        }
+
+        function scheduleInterview() {
+            const date = prompt('Enter interview date (YYYY-MM-DD):');
+            if (date) {
+                const applicationId = localStorage.getItem('currentApplication');
+                const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+                const index = applications.findIndex(app => app.id === applicationId);
+                
+                if (index !== -1) {
+                    applications[index].interviewDate = date;
+                    applications[index].status = 'interviewed';
+                    localStorage.setItem('jobApplications', JSON.stringify(applications));
+                    alert('Interview scheduled');
+                    location.reload();
+                }
+            }
+        }
+
+        function saveNotes() {
+            const notes = document.getElementById('applicationNotes').value;
+            const applicationId = localStorage.getItem('currentApplication');
+            const applications = JSON.parse(localStorage.getItem('jobApplications')) || [];
+            const index = applications.findIndex(app => app.id === applicationId);
+            
+            if (index !== -1) {
+                applications[index].notes = notes;
+                localStorage.setItem('jobApplications', JSON.stringify(applications));
+                alert('Notes saved');
+            }
+        }
+    </script>
+</body>
+</html> 

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Posted Jobs</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Posted Jobs</h1>
+        
+        <div id="jobList"></div>
+
+        <button type="button" class="back-btn" onclick="window.location.href='employer-portal.html'">
+            Back to Portal
+        </button>
+    </div>
+
+    <script>
+        // Function to display the posted jobs
+        function displayJobs() {
+            const jobListContainer = document.getElementById('jobList');
+            const jobs = JSON.parse(localStorage.getItem('postedJobs')) || [];
+
+            if (jobs.length === 0) {
+                jobListContainer.innerHTML = '<p>No jobs posted yet.</p>';
+                return;
+            }
+
+            jobListContainer.innerHTML = ''; // Clear the container before appending new content
+
+            jobs.forEach((job, index) => {
+                const jobElement = document.createElement('div');
+                jobElement.classList.add('job-item');
+                
+                jobElement.innerHTML = `
+                    <h3>${job.jobTitle} (${job.category})</h3>
+                    <p><strong>Employment Type:</strong> ${job.employmentType}</p>
+                    <p><strong>Description:</strong> ${job.description}</p>
+                    <p><strong>Requirements:</strong> ${job.requirements}</p>
+                    <p><strong>Benefits:</strong> ${job.benefits}</p>
+                    <p><strong>Salary:</strong> ${job.salary}</p>
+                    <p><strong>Location:</strong> ${job.location}</p>
+                    <p><strong>Posted on:</strong> ${new Date(job.datePosted).toLocaleDateString()}</p>
+                    <button class="delete-btn" onclick="deleteJob(${index})">Delete Job</button>
+                    <hr>
+                `;
+                
+                jobListContainer.appendChild(jobElement);
+            });
+        }
+
+        // Function to delete a job
+        function deleteJob(index) {
+            const jobs = JSON.parse(localStorage.getItem('postedJobs')) || [];
+            jobs.splice(index, 1); // Remove the job at the specified index
+
+            // Update localStorage
+            localStorage.setItem('postedJobs', JSON.stringify(jobs));
+
+            // Update the displayed list
+            displayJobs();
+            
+            // Update employer stats
+            const employerData = JSON.parse(localStorage.getItem('employerData')) || {};
+            if (employerData.activeJobs) {
+                employerData.activeJobs -= 1; // Decrement active jobs
+            }
+            localStorage.setItem('employerData', JSON.stringify(employerData));
+
+            alert('Job deleted successfully!');
+        }
+
+        // Display jobs when the page loads
+        window.onload = displayJobs;
+    </script>
+</body>
+</html>

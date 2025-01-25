@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Search Results</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Search Results</h1>
+
+        <!-- Live search form -->
+        <form id="search-form" action="search_results.html" method="GET">
+            <label for="search">Search:</label>
+            <input type="text" id="search" name="query" placeholder="Enter your search term..." oninput="displaySearchResults()">
+        </form>
+
+        <div id="search-results">
+            <!-- Dynamic search results will appear here -->
+        </div>
+
+        <button type="button" class="back-btn">
+            <a href="home.html" class="google-login-btn">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </button>
+    </div>
+
+    <script>
+        // Simulate a list of job listings (you can replace this with actual data or an API call)
+        const jobListings = [
+            { title: "Head Chef - Full-Time", link: "job-description/head-chef.html" },
+            { title: "Kitchen Porter - Full-Time", link: "job-description/kitchen-porter.html" },
+            { title: "Line Cook - Part-Time", link: "job-description/line-cook.html" },
+            { title: "Math Teacher - Full-Time", link: "job-description/math-teacher.html" },
+            { title: "Science Teacher - Part-Time", link: "job-description/science-teacher.html" },
+            { title: "Hair Stylist - Full-Time", link: "job-description/hair-stylist.html" },
+            { title: "Nail Technician - Part-Time", link: "job-description/nail-technician.html" },
+            { title: "Teaching Assistant - Full-Time", link: "job-description/teaching-assistant.html" },
+            { title: "Massage Therapist - Full-Time", link: "job-description/massage-therapist.html" },
+        ];
+
+        // Function to display search results
+        function displaySearchResults() {
+            const query = document.getElementById('search').value.toLowerCase();
+            const resultsContainer = document.getElementById('search-results');
+            const filteredResults = jobListings.filter(job => job.title.toLowerCase().includes(query));
+
+            // Clear previous results
+            resultsContainer.innerHTML = '';
+
+            if (filteredResults.length > 0) {
+                filteredResults.forEach(job => {
+                    const jobButton = document.createElement('button');
+                    jobButton.type = "button";
+                    jobButton.classList.add('category-btn');
+                    jobButton.innerHTML = `<a href="${job.link}" class="google-login-btn">${job.title}</a>`;
+                    resultsContainer.appendChild(jobButton);
+                });
+            } else {
+                resultsContainer.innerHTML = '<p>No results found</p>';
+            }
+        }
+    </script>
+</body>
+</html>

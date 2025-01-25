@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Employer Registration</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Complete Your Employer Profile</h1>
+        
+        <form id="employerRegistrationForm" class="registration-form">
+            <div class="form-group">
+                <label for="companyName">Company Name:</label>
+                <input type="text" id="companyName" name="companyName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="industry">Industry:</label>
+                <select id="industry" name="industry" required>
+                    <option value="">Select Industry</option>
+                    <option value="salon">Salon & Beauty</option>
+                    <option value="restaurant">Restaurant & Food Service</option>
+                    <option value="education">Education</option>
+                    <option value="healthcare">Healthcare</option>
+                    <option value="retail">Retail</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="companySize">Company Size:</label>
+                <select id="companySize" name="companySize" required>
+                    <option value="">Select Size</option>
+                    <option value="1-10">1-10 employees</option>
+                    <option value="11-50">11-50 employees</option>
+                    <option value="51-200">51-200 employees</option>
+                    <option value="201+">201+ employees</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="location">Company Location:</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+
+            <div class="form-group">
+                <label for="website">Company Website:</label>
+                <input type="url" id="website" name="website" placeholder="https://...">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Company Description:</label>
+                <textarea id="description" name="description" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="contactName">Contact Person Name:</label>
+                <input type="text" id="contactName" name="contactName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contactPosition">Contact Person Position:</label>
+                <input type="text" id="contactPosition" name="contactPosition" required>
+            </div>
+
+            <div class="form-group">
+                <label for="contactPhone">Contact Phone:</label>
+                <input type="tel" id="contactPhone" name="contactPhone" required>
+            </div>
+
+            <div class="form-group">
+                <label>Hiring Focus:</label>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="hiringFocus" value="fullTime"> Full-time employees
+                    </label>
+                    <label>
+                        <input type="checkbox" name="hiringFocus" value="partTime"> Part-time employees
+                    </label>
+                    <label>
+                        <input type="checkbox" name="hiringFocus" value="contract"> Contract workers
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">Complete Registration</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('employerRegistrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Collect form data
+            const formData = new FormData(this);
+            const employerData = {
+                hiringFocus: []
+            };
+            
+            formData.forEach((value, key) => {
+                if (key === 'hiringFocus') {
+                    employerData.hiringFocus.push(value);
+                } else {
+                    employerData[key] = value;
+                }
+            });
+            
+            // Add registration date
+            employerData.registrationDate = new Date().toISOString();
+            
+            // Initialize employer statistics
+            employerData.activeJobs = 0;
+            employerData.totalApplications = 0;
+            employerData.newApplications = 0;
+            
+            // Save to localStorage
+            localStorage.setItem('employerData', JSON.stringify(employerData));
+            
+            // Redirect to employer portal
+            window.location.href = 'employer-portal.html';
+        });
+    </script>
+
+    <style>
+        .registration-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</body>
+</html> 

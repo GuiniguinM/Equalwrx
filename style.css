@@ -1,4 +1,4 @@
-/* General Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -7,7 +7,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-image: url('img/freepik__candid-image-photography-natural-textures-highly-r__84669.jpeg');
+    background-image: url('img/bg5.jpg');
     background-size: cover;
     background-position: center;
     height: 100vh; /* Full height */
@@ -15,14 +15,14 @@ body {
 }
 
 .container {
-    width: 40%;
+    width: 60%;
     max-width: 800px;
     min-height: 400px;
     margin: 100px auto 50px auto;
-    padding: 100px 30px 30px 30px;
-    background: rgba(221, 220, 228, 0.50);
-    border-radius: 5px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    padding: 60px 40px 40px 40px;
+    background: rgba(255, 255, 255, 0.75);
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -48,10 +48,11 @@ label {
 button {
     width: 100%;
     max-width: 600px;
-    padding: 10px;
-    margin: 5px 0 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px 24px;
+    margin: 15px 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .google-login-btn{
@@ -85,7 +86,7 @@ button:hover {
 @media (max-width: 768px) {
     .container {
         width: 95%;
-        padding: 80px 20px 20px 20px;
+        padding: 50px 20px 20px 20px;
     }
 
     button:not(.settings-btn), .btn {
@@ -95,11 +96,11 @@ button:hover {
     }
 
     .settings-btn {
-        left: 50px;
-        top: 10px;
-        width: 60px;
-        height: 60px;
-        padding: 12px;
+        top: 20px;
+        left: 20px;
+        width: 30px;
+        height: 30px;
+        padding: 10px;
     }
 }
 
@@ -139,29 +140,25 @@ button:hover {
 
 .settings-btn {
     position: absolute;
-    left: 80px;
-    top: 1px;
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background-color: #45084d;
+    left: 30px;
+    top: 30px;
+    background: none;
     border: none;
     cursor: pointer;
+    padding: 20px;
+    border-radius: 50%;
+    border: 2px solid #45084d;
+    width: 60px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 16px;
-    transition: background-color 0.3s ease;
+    z-index: 100;
 }
 
 .settings-btn:hover {
-    background-color: #b60681;
-}
-
-.settings-btn img {
-    width: 60%;  /* Reduced from 100% to make the arrow smaller */
-    height: 60%;
-    filter: invert(1); /* This will make the icon white */
+    color: rgba(255, 255, 255, 0.50);
+    border-color: #b60681;
 }
 
 /* Settings Page Styles */
@@ -209,18 +206,22 @@ button:hover {
 
 /* Categories Page Styles */
 .categories-list {
-    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin: 20px 0;
+    gap: 20px;
+    width: 100%;
+    margin: 30px 0;
+}
+
+.category-btn, .menu-btn {
+    margin: 10px 0;
 }
 
 .category-btn {
     width: 100%;
     max-width: 600px;
-    padding: 15px 20px;
-    margin: 5px auto;
+    padding: 20px;
+    margin: 15px 0;
     background-color: #45084d;
     border: none;
     border-radius: 8px;
@@ -240,6 +241,11 @@ button:hover {
     width: 100%;
 }
 
+/* Icon spacing in buttons */
+.google-login-btn i {
+    margin-right: 10px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .category-btn {
@@ -257,10 +263,10 @@ select,
 textarea {
     width: 100%;
     max-width: 500px;
-    padding: 12px 18px;
-    margin: 6px 0 12px 0;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+    padding: 12px;
+    margin: 8px 0 16px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
     font-size: 1em;
     background-color: rgba(255, 255, 255, 0.9);
 }
@@ -292,7 +298,7 @@ textarea {
 }
 
 .form-group {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
 }
 
 .form-group label {
@@ -975,4 +981,39 @@ input[type="range"]::-webkit-slider-thumb {
 .resume-actions button {
     flex: 1;
     max-width: 200px;
+}
+
+/* Link styles */
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Icon styles */
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #45084d;
+    cursor: pointer;
+    padding: 10px;
+    transition: color 0.3s ease;
+}
+
+.icon-btn:hover {
+    color: #b60681;
+    background: none;
+}
+
+/* Adjust container top spacing */
+.container h1, 
+.container h2, 
+.container p {
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+
+/* Adjust icon size */
+.icon-btn i {
+    font-size: 20px;
 }

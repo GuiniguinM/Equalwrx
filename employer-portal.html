@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Employer Portal</title>
+</head>
+<body>
+    <div class="container">
+        <button class="settings-btn icon-btn">
+            <i class="fas fa-cog"></i>
+        </button>
+        <h1>Employer Portal</h1>
+        
+        <div class="employer-dashboard">
+            <div class="stats-section">
+                <div class="stat-card">
+                    <h3>Active Job Posts</h3>
+                    <p id="activeJobs">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Total Applications</h3>
+                    <p id="totalApplications">0</p>
+                </div>
+                <div class="stat-card">
+                    <h3>New Applications</h3>
+                    <p id="newApplications">0</p>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button onclick="window.location.href='post-job.html'" class="primary-btn">
+                    Post New Job
+                </button>
+                <button onclick="window.location.href='manage-applications.html'" class="secondary-btn">
+                    Manage Applications
+                </button>
+                <button onclick="window.location.href='posted-jobs.html'" class="secondary-btn">
+                    View Posted Jobs
+                </button>
+            </div>
+        </div>
+
+        <button type="button" class="logout-btn" onclick="handleLogout()">
+            Logout
+        </button>
+    </div>
+
+    <script>
+        function handleLogout() {
+            localStorage.removeItem('employerData');
+            window.location.href = 'employer-login.html';
+        }
+
+        // Load employer dashboard data
+        document.addEventListener('DOMContentLoaded', function() {
+            const employerData = JSON.parse(localStorage.getItem('employerData')) || {};
+            document.getElementById('activeJobs').textContent = employerData.activeJobs || 0;
+            document.getElementById('totalApplications').textContent = employerData.totalApplications || 0;
+            document.getElementById('newApplications').textContent = employerData.newApplications || 0;
+        });
+    </script>
+</body>
+</html> 
