@@ -27,6 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Calculate age from birthdate
+function calculateAge(birthdate) {
+    const birth = new Date(birthdate);
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const monthDiff = today.getMonth() - birth.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+        age--;
+    }
+    
+    return age;
+}
+
 // Display profile data
 function displayProfileData() {
     if (!profileData || Object.keys(profileData).length === 0) {
@@ -38,7 +52,7 @@ function displayProfileData() {
         'first-name': 'First Name',
         'last-name': 'Last Name',
         'mid-name': 'Middle Name',
-        'age': 'Age',
+        'birthdate': 'Birthdate',
         'sex': 'Sex',
         'address': 'Address',
         'disability': 'Disability'
@@ -47,12 +61,26 @@ function displayProfileData() {
     let html = '<div class="profile-info">';
     Object.entries(fields).forEach(([key, label]) => {
         if (profileData[key]) {
-            html += `
-                <div class="info-group">
-                    <span class="info-label">${label}:</span>
-                    <span class="info-value">${profileData[key]}</span>
-                </div>
-            `;
+            if (key === 'birthdate') {
+                const age = calculateAge(profileData[key]);
+                html += `
+                    <div class="info-group">
+                        <span class="info-label">${label}:</span>
+                        <span class="info-value">${profileData[key]}</span>
+                    </div>
+                    <div class="info-group">
+                        <span class="info-label">Age:</span>
+                        <span class="info-value">${age} years old</span>
+                    </div>
+                `;
+            } else {
+                html += `
+                    <div class="info-group">
+                        <span class="info-label">${label}:</span>
+                        <span class="info-value">${profileData[key]}</span>
+                    </div>
+                `;
+            }
         }
     });
     html += '</div>';

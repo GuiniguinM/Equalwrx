@@ -11,43 +11,30 @@
     <div class="container">
         <h1>All Job Listings</h1>
         
-        <div class="categories-list">
-
+        <div class="filter-section">
             <button class="settings-btn icon-btn" onclick="window.location.href='search-res.html'">
                 <i class="fas fa-search"></i>
             </button>
 
-            <br>
+            <div class="filter-controls">
+                <select id="categoryFilter" onchange="filterJobs()">
+                    <option value="all">All Categories</option>
+                    <option value="salon">Salon Services</option>
+                    <option value="kitchen">Kitchen Staff</option>
+                    <option value="education">Education</option>
+                </select>
 
-            <button type="button" class="category-btn">
-                <a href="job-description/hair-stylist.html" class="google-login-btn">Hair Stylist - Full-Time</a>
-            </button>
-            <button type="button" class="category-btn">
-                <a href="job-description/head-chef.html" class="google-login-btn">
-                    <i class="fas fa-chef-hat"></i> Head Chef - Full-Time
-                </a>
-            </button>
-            <button type="button" class="category-btn">
-                <a href="job-description/kitchen-porter.html" class="google-login-btn">Kitchen Porter - Full-Time</a>
-            </button>
-            <button type="button" class="category-btn">
-                <a href="job-description/line-cook.html" class="google-login-btn">Line Cook - Part-Time</a>
-            </button>
-            <button type="button" class="category-btn">
-                <a href="job-description/massage-therapist.html" class="google-login-btn">Massage Therapist - Full-Time</a>
-            </button>
-            <button type="button" class="category-btn">
-                <a href="job-description/math-teacher.html" class="google-login-btn">Math Teacher - Full-Time</a>
-            </button>
-            <button type="button" class="category-btn">
-                <a href="job-description/nail-technician.html" class="google-login-btn">Nail Technician - Part-Time</a>
-            </button>
-            <button type="button" class="category-btn">
-                <a href="job-description/science-teacher.html" class="google-login-btn">Science Teacher - Part-Time</a>
-            </button>
-            <button type="button" class="category-btn">
-                <a href="job-description/teaching-assistant.html" class="google-login-btn">Teaching Assistant - Full-Time</a>
-            </button>
+                <select id="typeFilter" onchange="filterJobs()">
+                    <option value="all">All Types</option>
+                    <option value="full-time">Full-Time</option>
+                    <option value="part-time">Part-Time</option>
+                    <option value="contract">Contract</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="categories-list" id="jobListings">
+            <!-- Jobs will be dynamically loaded here -->
         </div>
 
         <button type="button" class="back-btn">
@@ -56,5 +43,85 @@
             </a>
         </button>
     </div>
+
+    <script>
+        // Static job listings
+        const staticJobs = [
+            { title: "Hair Stylist", category: "salon", type: "full-time", url: "job-description/hair-stylist.html" },
+            { title: "Head Chef", category: "kitchen", type: "full-time", url: "job-description/head-chef.html" },
+            { title: "Kitchen Porter", category: "kitchen", type: "full-time", url: "job-description/kitchen-porter.html" },
+            { title: "Line Cook", category: "kitchen", type: "part-time", url: "job-description/line-cook.html" },
+            { title: "Massage Therapist", category: "salon", type: "full-time", url: "job-description/massage-therapist.html" },
+            { title: "Math Teacher", category: "education", type: "full-time", url: "job-description/math-teacher.html" },
+            { title: "Nail Technician", category: "salon", type: "part-time", url: "job-description/nail-technician.html" },
+            { title: "Science Teacher", category: "education", type: "part-time", url: "job-description/science-teacher.html" },
+            { title: "Teaching Assistant", category: "education", type: "full-time", url: "job-description/teaching-assistant.html" }
+        ];
+
+        // Function to display jobs
+        function displayJobs(jobs) {
+            const container = document.getElementById('jobListings');
+            container.innerHTML = '';
+
+            jobs.forEach(job => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'category-btn';
+                button.innerHTML = `
+                    <a href="${job.url}" class="google-login-btn">
+                        ${job.title} - ${job.type}
+                    </a>
+                `;
+                container.appendChild(button);
+            });
+        }
+
+        // Function to filter jobs
+        function filterJobs() {
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+
+            // Combine static and dynamic jobs
+            const dynamicJobs = JSON.parse(localStorage.getItem('postedJobs')) || [];
+            const allJobs = [...staticJobs, ...dynamicJobs.map(job => ({
+                title: job.jobTitle,
+                category: job.category,
+                type: job.employmentType,
+                url: job.jobUrl
+            }))];
+
+            // Apply filters
+            const filteredJobs = allJobs.filter(job => {
+                const matchesCategory = categoryFilter === 'all' || job.category === categoryFilter;
+                const matchesType = typeFilter === 'all' || job.type === typeFilter;
+                return matchesCategory && matchesType;
+            });
+
+            displayJobs(filteredJobs);
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', filterJobs);
+    </script>
+
+    <style>
+        .filter-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .filter-controls select {
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+    </style>
 </body>
 </html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <title>Employer Information</title>
+</head>
+<body>
+    <div class="container">
+        <div class="employer-info-container">
+            <h2>Employer Information</h2>
+            
+            <div class="employer-details" id="employerView">
+                <!-- Employer information will be displayed here -->
+            </div>
+
+            <div class="employer-form hidden" id="employerForm">
+                <form id="editEmployerForm">
+                    <div class="form-group">
+                        <label for="companyName">Company Name:</label>
+                        <input type="text" id="companyName" name="companyName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="industry">Industry:</label>
+                        <select id="industry" name="industry" required>
+                            <option value="">Select Industry</option>
+                            <option value="salon">Salon & Beauty</option>
+                            <option value="restaurant">Restaurant & Food Service</option>
+                            <option value="education">Education</option>
+                            <option value="healthcare">Healthcare</option>
+                            <option value="retail">Retail</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="companySize">Company Size:</label>
+                        <select id="companySize" name="companySize" required>
+                            <option value="">Select Size</option>
+                            <option value="1-10">1-10 employees</option>
+                            <option value="11-50">11-50 employees</option>
+                            <option value="51-200">51-200 employees</option>
+                            <option value="201+">201+ employees</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Company Location:</label>
+                        <input type="text" id="location" name="location" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="website">Company Website:</label>
+                        <input type="url" id="website" name="website" placeholder="https://...">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Company Description:</label>
+                        <textarea id="description" name="description" rows="4" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactName">Contact Person Name:</label>
+                        <input type="text" id="contactName" name="contactName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactPosition">Contact Person Position:</label>
+                        <input type="text" id="contactPosition" name="contactPosition" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="contactPhone">Contact Phone:</label>
+                        <input type="tel" id="contactPhone" name="contactPhone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Hiring Focus:</label>
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="hiringFocus" value="fullTime"> Full-time employees
+                            </label>
+                            <label>
+                                <input type="checkbox" name="hiringFocus" value="partTime"> Part-time employees
+                            </label>
+                            <label>
+                                <input type="checkbox" name="hiringFocus" value="contract"> Contract workers
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="save-btn">Save Changes</button>
+                        <button type="button" class="cancel-btn" onclick="toggleEditMode()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+
+            <button class="edit-btn" id="editButton" onclick="toggleEditMode()">Edit Information</button>
+        </div>
+
+        <button type="button" class="back-btn">
+            <a href="employer-portal.html" class="google-login-btn">
+                <i class="fas fa-arrow-left"></i> Back to Portal
+            </a>
+        </button>
+    </div>
+
+    <script>
+        // Get stored employer data
+        let employerData = JSON.parse(localStorage.getItem('employerData'));
+
+        // Elements
+        const employerView = document.getElementById('employerView');
+        const employerForm = document.getElementById('employerForm');
+        const editEmployerForm = document.getElementById('editEmployerForm');
+        const editButton = document.getElementById('editButton');
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            displayEmployerData();
+            
+            // Pre-fill form with existing data
+            if (employerData) {
+                Object.keys(employerData).forEach(key => {
+                    const input = document.getElementById(key);
+                    if (input) {
+                        if (input.type === 'checkbox') {
+                            input.checked = employerData.hiringFocus.includes(input.value);
+                        } else {
+                            input.value = employerData[key];
+                        }
+                    }
+                });
+            }
+        });
+
+        // Display employer data
+        function displayEmployerData() {
+            if (!employerData) {
+                employerView.innerHTML = '<p class="no-data">No employer information available.</p>';
+                return;
+            }
+
+            const fields = {
+                'companyName': 'Company Name',
+                'industry': 'Industry',
+                'companySize': 'Company Size',
+                'location': 'Location',
+                'website': 'Website',
+                'description': 'Description',
+                'contactName': 'Contact Person',
+                'contactPosition': 'Position',
+                'contactPhone': 'Phone'
+            };
+
+            let html = '<div class="info-details">';
+            Object.entries(fields).forEach(([key, label]) => {
+                if (employerData[key]) {
+                    html += `
+                        <div class="info-group">
+                            <span class="info-label">${label}:</span>
+                            <span class="info-value">${employerData[key]}</span>
+                        </div>
+                    `;
+                }
+            });
+
+            // Display hiring focus separately
+            if (employerData.hiringFocus && employerData.hiringFocus.length > 0) {
+                html += `
+                    <div class="info-group">
+                        <span class="info-label">Hiring Focus:</span>
+                        <span class="info-value">${employerData.hiringFocus.join(', ')}</span>
+                    </div>
+                `;
+            }
+
+            html += '</div>';
+            employerView.innerHTML = html;
+        }
+
+        // Toggle between view and edit mode
+        function toggleEditMode() {
+            employerView.classList.toggle('hidden');
+            employerForm.classList.toggle('hidden');
+            editButton.classList.toggle('hidden');
+        }
+
+        // Handle form submission
+        editEmployerForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Update employer data
+            const formData = new FormData(editEmployerForm);
+            const hiringFocus = [];
+            
+            formData.forEach((value, key) => {
+                if (key === 'hiringFocus') {
+                    hiringFocus.push(value);
+                } else {
+                    employerData[key] = value;
+                }
+            });
+            
+            employerData.hiringFocus = hiringFocus;
+
+            // Save to localStorage
+            localStorage.setItem('employerData', JSON.stringify(employerData));
+
+            // Update display and return to view mode
+            displayEmployerData();
+            toggleEditMode();
+        });
+    </script>
+
+    <style>
+        .employer-info-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .info-details {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .info-group {
+            margin-bottom: 15px;
+        }
+
+        .info-label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</body>
+</html> 

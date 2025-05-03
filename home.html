@@ -8,28 +8,63 @@
     <title>Homepage</title>
 </head>
 <body>
-    
-    <button class="settings-btn" onclick="window.location.href='settings.html'">
-        <i class="fas fa-cog"></i>
-    </button>
-    <img src="img/EqualWorx job hunting logo (1).png" class="app-logo" alt="App Logo">
     <div class="container">
+        <button class="settings-btn" onclick="window.location.href='settings.html'">
+            <i class="fas fa-cog fa-2x"></i>
+        </button>
+        
+        <img src="img/EqualWorx job hunting logo (1).png" class="app-logo" alt="App Logo">
+        
         <h1>Welcome Job Seekers!</h1>
-        <button type="button" class="menu-btn">
-            <a href="search-resu.html" class="google-login-btn">
-                <i class="fas fa-search"></i> SEARCH
-            </a>
-        </button>
-        <button type="button" class="menu-btn">
-            <a href="categories.html" class="google-login-btn">
-                <i class="fas fa-th-large"></i> CATEGORIES
-            </a>
-        </button>
-        <button type="button" class="menu-btn">
-            <a href="joblist.html" class="google-login-btn">
-                <i class="fas fa-list"></i> JOBLIST
-            </a>
-        </button>
+        
+        <div class="menu-container">
+            <button type="button" class="menu-btn">
+                <a href="search-resu.html" class="google-login-btn">
+                    <i class="fas fa-search"></i> SEARCH
+                </a>
+            </button>
+            <button type="button" class="menu-btn">
+                <a href="categories.html" class="google-login-btn">
+                    <i class="fas fa-th-large"></i> CATEGORIES
+                </a>
+            </button>
+            <button type="button" class="menu-btn">
+                <a href="joblist.html" class="google-login-btn">
+                    <i class="fas fa-list"></i> JOBLIST
+                </a>
+            </button>
+        </div>
     </div>
+
+    <style>
+        .container {
+            position: relative;
+            padding-top: 60px; /* Make space for the settings button */
+        }
+
+        .settings-btn {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .settings-btn i {
+            font-size: 2.5rem;
+            color: #333;
+        }
+
+        .menu-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+    </style>
 </body>
 </html>
